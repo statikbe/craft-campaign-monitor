@@ -22,7 +22,7 @@ To install the plugin, follow these instructions.
     composer require statikbe/craft-campaign-monitor
 ```
 
-3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Link Field.
+3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Campaign Monitor.
 
 ## Usage
 
@@ -30,31 +30,58 @@ To use:
 
 After installing and enabling the plugin, you'll need to enter your **API Key** and **Client ID** from your Campaign Monitor account under *Settings > Campaign Monitor*.
 
-### Subscribe Form
+By default, a contact in Campaign Monitor has the following fields:
+
+* Email (required)
+* Name
+
+### Basic Subscribe Form
 
 You can implement a subscribe form in your templates using the following code. Note that **Resubscribe** will be set to **true**.
 
-```
-    <form method="post" action="" accept-charset="UTF-8">
-      {{ csrfInput() }}
-      <input type="hidden" name="action" value="campaign-monitor/subscribe" />
-      {{ redirectInput('foo/bar') }}
-      {{ hiddenInput('listId', 'ListID'|hash) }}
+`````html
+<form method="post">
+    {{ csrfInput() }}
+    {{ actionInput('campaign-monitor/subscribe') }}
+    {{ redirectInput('foo/bar') }}
+    {{ hiddenInput('listId', 'ListID'|hash) }}
       
-      <label>Email Address</label>
-      <input type="email" name="email" placeholder="john.doe@email.com" required />
+    <label for="email">E-mail</label>
+    <input type="email" name="email" required />
       
-      {# Use firstname + lastname fields, or fullname (optional) #}
-      <label>First Name</label>
-      <input type="text" name="firstname" placeholder="John" />
-      <label>Last Name</label>
-      <input type="text" name="lastname" placeholder="Doe" />
-      {# <label>Full Name</label>
-      <input type="text" name="fullname" placeholder="John Doe" /> #}
+    {# Use firstname + lastname fields, or fullname (optional) #}
+    <label for="firstname">First Name</label>
+    <input type="text" name="firstname" />
+    <label for="lastname">Last Name</label>
+    <input type="text" name="lastname" />
+    {# <label for="fullname">Full Name</label>
+      <input type="text" name="fullname" /> #}
       
-      <button type="submit">Submit</button>
-    </form>
-```
+    <button type="submit">Subscribe</button>
+</form>
+`````
+
+### Subscribe form with custom fields
+Campaign Monitor custom fields can be added in the ``fields`` namespace.
+For example ``fields[city]``, where "city" is the handle of the custom field in Campaign Monitor.
+
+`````html
+ <form method="post">
+    {{ csrfInput() }}
+    {{ actionInput('campaign-monitor/subscribe') }}
+    {{ redirectInput('foo/bar') }}
+    {{ hiddenInput('listId', 'ListID'|hash) }}
+
+    <label for="email">E-mail</label>
+    <input type="email" name="email" required />
+   
+
+    <label>Custom Field</label>
+    <input type="text" name="fields[CustomFieldCampaignMonitor]" placeholder="Some Value" value="Some Value" />
+
+    <button type="submit">Subscribe</button>
+</form>
+`````
 
 ## Credits
 
