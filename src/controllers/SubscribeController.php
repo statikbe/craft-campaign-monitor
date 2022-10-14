@@ -19,14 +19,22 @@ class SubscribeController extends Controller
         $listId = $request->getRequiredBodyParam('listId') ? Craft::$app->security->validateData($request->post('listId')) : null;
 
         $email = $request->getParam('email');
+        $fullName = '';
+        if ($request->getParam('fullname') !== null)
+            $fullName = $request->getParam('fullname');
+        if ($request->getParam('firstname') !== null)
+            $fullName = $request->getParam('firstname');
+        if ($request->getParam('lastname') !== null)
+            $fullName .= ' ' . $request->getParam('lastname');
 
          $subscriber = array(
              'EmailAddress' => $email,
+             'Name' => $fullName,
              'Resubscribe' => true,
              'ConsentToTrack' => 'yes'
          );
 
-         if ($request->getParam('email') !== null) {
+         if ($email !== null) {
              $response = CampaignMonitorService::instance()->addSubscriber($listId, $subscriber);
             return $request->getBodyParam('redirect') ? $this->redirectToPostedUrl() : $this->asJson($response);
          }
