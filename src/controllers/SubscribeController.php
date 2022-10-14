@@ -20,16 +20,31 @@ class SubscribeController extends Controller
 
         $email = $request->getParam('email');
         $fullName = '';
-        if ($request->getParam('fullname') !== null)
+        if ($request->getParam('fullname') !== null) {
             $fullName = $request->getParam('fullname');
-        if ($request->getParam('firstname') !== null)
+        }
+        if ($request->getParam('firstname') !== null) {
             $fullName = $request->getParam('firstname');
-        if ($request->getParam('lastname') !== null)
+        }
+        if ($request->getParam('lastname') !== null) {
             $fullName .= ' ' . $request->getParam('lastname');
+        }
 
+        if ($request->getParam('fields') !== null) {
+            foreach($request->getParam('fields') as $key => $value) {
+                if ($key != 'email' && $key != 'firstname' && $key != 'lastname' && $key != 'fullname') {
+                    $additionalFields[] = array(
+                        'Key' => $key,
+                        'Value' => $value
+                    );
+                }
+            }
+        }
+        
          $subscriber = array(
              'EmailAddress' => $email,
              'Name' => $fullName,
+             'CustomFields' => $additionalFields,
              'Resubscribe' => true,
              'ConsentToTrack' => 'yes'
          );

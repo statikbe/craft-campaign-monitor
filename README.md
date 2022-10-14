@@ -74,10 +74,16 @@ For example ``fields[city]``, where "city" is the handle of the custom field in 
 
     <label for="email">E-mail</label>
     <input type="email" name="email" required />
-   
 
-    <label>Custom Field</label>
-    <input type="text" name="fields[CustomFieldCampaignMonitor]" placeholder="Some Value" value="Some Value" />
+
+    <label for="CustomTextField">Custom Text Field</label>
+    <input type="text" name="fields[CustomTextField]" id="CustomTextField" />
+
+    <label for="CustomNumberField">Custom Number Field</label>
+    <input type="number" name="fields[CustomNumberField]" id="CustomNumberField" />
+
+    <label for="CustomDateField">Custom Date Field</label>
+    <input type="date" name="fields[CustomDateField]" id="CustomDateField" />
 
     <button type="submit">Subscribe</button>
 </form>
