@@ -26,6 +26,9 @@ class Settings extends Model
      */
     public function getApiKey(): string
     {
+        if (!$this->apiKey){
+            throw new \yii\base\Exception("Please provide an API key.");
+        }
         return Craft::parseEnv($this->apiKey);
     }
 
@@ -35,6 +38,9 @@ class Settings extends Model
      */
     public function getClientId(): string
     {
+        if (!$this->clientId){
+            throw new \yii\base\Exception("Please provide a Client ID.");
+        }
         return Craft::parseEnv($this->clientId);
     }
 }
