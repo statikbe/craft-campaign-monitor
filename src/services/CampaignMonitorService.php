@@ -8,8 +8,8 @@ use statikbe\campaignmonitor\CampaignMonitor;
 
 class CampaignMonitorService extends Component
 {
-    private string $apiKey;
-    private string $clientId;
+    private string|null $apiKey;
+    private string|null $clientId;
 
     public function init(): void
     {

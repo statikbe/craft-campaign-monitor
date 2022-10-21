@@ -45,6 +45,8 @@ You can implement a subscribe form in your templates using the following code. N
     {{ actionInput('campaign-monitor/subscribe') }}
     {{ redirectInput('foo/bar') }}
     {{ hiddenInput('listId', 'ListID'|hash) }}
+
+    {{ craft.app.session.getFlash('error') }}
       
     <label for="email">E-mail</label>
     <input type="email" name="email" required />
@@ -72,9 +74,10 @@ For example ``fields[city]``, where "city" is the handle of the custom field in 
     {{ redirectInput('foo/bar') }}
     {{ hiddenInput('listId', 'ListID'|hash) }}
 
+    {{ craft.app.session.getFlash('error') }}
+
     <label for="email">E-mail</label>
     <input type="email" name="email" required />
-
 
     <label for="CustomTextField">Custom Text Field</label>
     <input type="text" name="fields[CustomTextField]" id="CustomTextField" />

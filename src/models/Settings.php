@@ -20,26 +20,36 @@ class Settings extends Model
         ];
     }
 
+    public function checkSettings()
+    {
+        if ($this->getApiKey() && $this->getClientId()){
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Retrieve parsed API Key
-     * @return string
+     * @return string|null
      */
-    public function getApiKey(): string
+    public function getApiKey(): ?string
     {
-        if (!$this->apiKey){
-            throw new \yii\base\Exception("Please provide an API key.");
+        if (!$this->apiKey) {
+//            Craft::$app->getUrlManager()->setRouteParams(['error' => Craft::t('site', "Please provide an API key")]);
+            return null;
         }
         return Craft::parseEnv($this->apiKey);
     }
 
     /**
      * Retrieve parse Client Id
-     * @return string
+     * @return string|null
      */
-    public function getClientId(): string
+    public function getClientId(): ?string
     {
-        if (!$this->clientId){
-            throw new \yii\base\Exception("Please provide a Client ID.");
+        if (!$this->clientId) {
+//            Craft::$app->getUrlManager()->setRouteParams(['error' => Craft::t('site', "Please provide a Client ID")]);
+            return null;
         }
         return Craft::parseEnv($this->clientId);
     }

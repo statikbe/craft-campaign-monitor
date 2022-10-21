@@ -4,6 +4,7 @@ namespace statikbe\campaignmonitor\controllers;
 
 use Craft;
 use craft\web\Controller;
+use statikbe\campaignmonitor\CampaignMonitor;
 use statikbe\campaignmonitor\services\CampaignMonitorService;
 
 class SubscribeController extends Controller
@@ -12,6 +13,10 @@ class SubscribeController extends Controller
 
     public function actionIndex()
     {
+        if(!CampaignMonitor::getInstance()->getSettings()->checkSettings()) {
+            Craft::$app->getSession()->setError(Craft::t('site', "Please provide an API key and Client ID"));
+            return $this->asFailure(Craft::t('site', "Please provide an API key and Client ID"));
+        }
         $this->requirePostRequest();
         $request = Craft::$app->getRequest();
 
@@ -19,6 +24,11 @@ class SubscribeController extends Controller
         $listId = $request->getRequiredBodyParam('listId') ? Craft::$app->security->validateData($request->post('listId')) : null;
 
         $email = $request->getRequiredBodyParam('email');
+        if(!$email){
+            Craft::$app->getSession()->setError(Craft::t('site', "Please provide an email"));
+            return $this->asFailure(Craft::t('site', "Please provide an email"));
+        }
+
         $fullName = '';
         if ($request->getParam('fullname') !== null) {
             $fullName = $request->getParam('fullname');
@@ -49,7 +59,7 @@ class SubscribeController extends Controller
              'ConsentToTrack' => 'yes'
          );
 
-         if ($email !== null) {
+         if ($email) {
              $response = CampaignMonitorService::instance()->addSubscriber($listId, $subscriber);
             return $request->getBodyParam('redirect') ? $this->redirectToPostedUrl() : $this->asJson($response);
          }
