@@ -1,0 +1,24 @@
+{% import '_includes/forms' as forms %}
+
+{{ forms.autosuggestField({
+    first:        true,
+    required:     true,
+    label:        'API Key',
+    instructions: '',
+    id:           'apiKey',
+    name:         'apiKey',
+    placeholder:  '',
+    value:        settings.apiKey,
+    suggestEnvVars: true
+}) }}
+
+{{ forms.autosuggestField({
+    required:     true,
+    label:        'Client ID',
+    instructions: '',
+    id:           'clientId',
+    name:         'clientId',
+    placeholder:  '',
+    value:        settings.clientId,
+    suggestEnvVars: true
+}) }}
