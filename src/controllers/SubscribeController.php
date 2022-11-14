@@ -40,6 +40,7 @@ class SubscribeController extends Controller
             $fullName .= ' ' . $request->getParam('lastname');
         }
 
+        $additionalFields = [];
         if ($request->getParam('fields') !== null) {
             foreach($request->getParam('fields') as $key => $value) {
                 if ($key != 'email' && $key != 'firstname' && $key != 'lastname' && $key != 'fullname') {
