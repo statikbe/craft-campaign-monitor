@@ -2,7 +2,8 @@
   "name": "statikbe/craft-campaign-monitor",
   "description": "Add subscribers to a Campaign Monitor list",
   "type": "craft-plugin",
-  "keywords": ["Craft", "plugin", "Campaign Monitor", "emails", "subscribe"],
+  "version": "1.0.0",
+  "keywords": ["craft", "cms", "craftcms", "craft-plugin", "plugin", "campaign monitor", "campaignmonitor", "email"],
   "license": "MIT",
   "authors": [
     {
@@ -11,11 +12,11 @@
     },
     {
       "name": "Hannah De Wachter",
-      "homepage": "https://github.com/HannahDeWachter"
+      "email": "hannah@statik.be"
     }
   ],
   "support": {
-    "issues": "https://github.com/statikbe/craft-campaign-monitor/issues?state=open",
+    "issues": "https://github.com/statikbe/craft-campaign-monitor/issues",
     "source": "https://github.com/statikbe/craft-campaign-monitor",
     "docs": "https://github.com/statikbe/craft-campaign-monitor/blob/master/README.md"
   },
@@ -31,6 +32,8 @@
   "extra": {
     "name": "Campaign Monitor",
     "handle": "campaign-monitor",
+    "hasSettings": true,
+    "developer": "Statik",
     "class": "statikbe\\campaignmonitor\\CampaignMonitor"
   }
 }
