@@ -21,7 +21,7 @@ class SubscribeController extends Controller
         $request = Craft::$app->getRequest();
 
         // Fetch list id from hidden input
-        $listId = $request->getRequiredBodyParam('listId') ? Craft::$app->security->validateData($request->post('listId')) : null;
+        $listId = $request->getRequiredBodyParam('listId') ?? null;
 
         $email = $request->getRequiredBodyParam('email');
         if(!$email){
