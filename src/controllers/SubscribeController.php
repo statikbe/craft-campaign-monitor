@@ -61,8 +61,15 @@ class SubscribeController extends Controller
          );
 
          if ($email) {
-             $response = CampaignMonitorService::instance()->addSubscriber($listId, $subscriber);
-            return $request->getBodyParam('redirect') ? $this->redirectToPostedUrl() : $this->asJson($response);
+             if (is_array($listId)) {
+                 foreach ($listId as $id) {
+                     CampaignMonitorService::instance()->addSubscriber($id, $subscriber);
+                 }
+                 return $this->redirectToPostedUrl();
+             } else {
+                 $response = CampaignMonitorService::instance()->addSubscriber($listId, $subscriber);
+                 return $request->getBodyParam('redirect') ? $this->redirectToPostedUrl() : $this->asJson($response);
+             }
          }
 
     }
