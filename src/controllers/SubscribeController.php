@@ -24,7 +24,7 @@ class SubscribeController extends Controller
         $listId = $request->getRequiredBodyParam('listId') ?? null;
 
         $email = $request->getRequiredBodyParam('email');
-        if(!$email){
+        if(!$email) {
             Craft::$app->getSession()->setError(Craft::t('site', "Please provide an email"));
             return $this->asFailure(Craft::t('site', "Please provide an email"));
         }
@@ -51,26 +51,36 @@ class SubscribeController extends Controller
                 }
             }
         }
-        
-         $subscriber = array(
-             'EmailAddress' => $email,
-             'Name' => $fullName,
-             'CustomFields' => $additionalFields,
-             'Resubscribe' => true,
-             'ConsentToTrack' => 'yes'
-         );
 
-         if ($email) {
-             if (is_array($listId)) {
-                 foreach ($listId as $id) {
-                     CampaignMonitorService::instance()->addSubscriber($id, $subscriber);
-                 }
-                 return $this->redirectToPostedUrl();
-             } else {
-                 $response = CampaignMonitorService::instance()->addSubscriber($listId, $subscriber);
-                 return $request->getBodyParam('redirect') ? $this->redirectToPostedUrl() : $this->asJson($response);
-             }
-         }
+        $subscriber = array(
+            'EmailAddress' => $email,
+            'Name' => $fullName,
+            'CustomFields' => $additionalFields,
+            'Resubscribe' => true,
+            'ConsentToTrack' => 'yes'
+        );
+
+        if ($email) {
+            if (is_array($listId)) {
+                foreach ($listId as $id) {
+                    if(!($id = Craft::$app->security->validateData($id))) {
+                        continue;
+                    }
+                    $response = CampaignMonitorService::instance()->addSubscriber($id, $subscriber);
+                }
+                return $this->redirectToPostedUrl();
+            } else {
+                if(!($listId = Craft::$app->security->validateData($listId))) {
+                    return $this->asJson([
+                        'success' => false,
+                        'statusCode' => 400,
+                        'reason' => 'No valid list id',
+                    ]);
+                }
+                $response = CampaignMonitorService::instance()->addSubscriber($listId, $subscriber);
+                return $request->getBodyParam('redirect') ? $this->redirectToPostedUrl() : $this->asJson($response);
+            }
+        }
 
     }
 }
