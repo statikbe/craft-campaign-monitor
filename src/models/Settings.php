@@ -4,11 +4,11 @@ namespace statikbe\campaignmonitor\models;
 
 use Craft;
 use craft\base\Model;
+use craft\helpers\App;
 
 class Settings extends Model
 {
     public ?string $apiKey = null;
-    public ?string $clientId = null;
 
     /**
      * @return array<mixed>
@@ -18,14 +18,12 @@ class Settings extends Model
         return [
             [['apiKey'], 'string'],
             [['apiKey'], 'required'],
-            [['clientId'], 'string'],
-            [['clientId'], 'required'],
         ];
     }
 
     public function checkSettings(): bool
     {
-        if ($this->getApiKey() && $this->getClientId()) {
+        if ($this->getApiKey()) {
             return true;
         }
         return false;
@@ -41,19 +39,7 @@ class Settings extends Model
 //            Craft::$app->getUrlManager()->setRouteParams(['error' => Craft::t('site', "Please provide an API key")]);
             return null;
         }
-        return Craft::parseEnv($this->apiKey);
+        return App::parseEnv($this->apiKey);
     }
 
-    /**
-     * Retrieve parse Client Id
-     * @return string|null
-     */
-    public function getClientId(): ?string
-    {
-        if (!$this->clientId) {
-//            Craft::$app->getUrlManager()->setRouteParams(['error' => Craft::t('site', "Please provide a Client ID")]);
-            return null;
-        }
-        return Craft::parseEnv($this->clientId);
-    }
 }
