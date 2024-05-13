@@ -41,5 +41,11 @@
     "hasSettings": true,
     "developer": "Statik",
     "class": "statikbe\\campaignmonitor\\CampaignMonitor"
+  },
+  "config": {
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true,
+      "craftcms/plugin-installer": true
+    }
   }
 }

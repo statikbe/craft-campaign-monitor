@@ -1,4 +1,5 @@
 <?php
+
 namespace statikbe\campaignmonitor;
 
 use Craft;
@@ -23,7 +24,7 @@ class CampaignMonitor extends Plugin
     protected function settingsHtml(): ?string
     {
         return \Craft::$app->getView()->renderTemplate('campaign-monitor/settings', [
-            'settings' => $this->getSettings()
+            'settings' => $this->getSettings(),
         ]);
     }
 }

@@ -13,7 +13,7 @@ class SubscribeController extends Controller
 
     public function actionIndex()
     {
-        if(!CampaignMonitor::getInstance()->getSettings()->checkSettings()) {
+        if (!CampaignMonitor::getInstance()->getSettings()->checkSettings()) {
             Craft::$app->getSession()->setError(Craft::t('site', "Please provide an API key and Client ID"));
             return $this->asFailure(Craft::t('site', "Please provide an API key and Client ID"));
         }
@@ -24,7 +24,7 @@ class SubscribeController extends Controller
         $listId = $request->getRequiredBodyParam('listId') ?? null;
 
         $email = $request->getRequiredBodyParam('email');
-        if(!$email) {
+        if (!$email) {
             Craft::$app->getSession()->setError(Craft::t('site', "Please provide an email"));
             return $this->asFailure(Craft::t('site', "Please provide an email"));
         }
@@ -42,11 +42,11 @@ class SubscribeController extends Controller
 
         $additionalFields = [];
         if ($request->getParam('fields') !== null) {
-            foreach($request->getParam('fields') as $key => $value) {
+            foreach ($request->getParam('fields') as $key => $value) {
                 if ($key != 'email' && $key != 'firstname' && $key != 'lastname' && $key != 'fullname') {
                     $additionalFields[] = array(
                         'Key' => $key,
-                        'Value' => $value
+                        'Value' => $value,
                     );
                 }
             }
@@ -57,20 +57,20 @@ class SubscribeController extends Controller
             'Name' => $fullName,
             'CustomFields' => $additionalFields,
             'Resubscribe' => true,
-            'ConsentToTrack' => 'yes'
+            'ConsentToTrack' => 'yes',
         );
 
         if ($email) {
             if (is_array($listId)) {
                 foreach ($listId as $id) {
-                    if(!($id = Craft::$app->security->validateData($id))) {
+                    if (!($id = Craft::$app->security->validateData($id))) {
                         continue;
                     }
                     $response = CampaignMonitorService::instance()->addSubscriber($id, $subscriber);
                 }
                 return $this->redirectToPostedUrl();
             } else {
-                if(!($listId = Craft::$app->security->validateData($listId))) {
+                if (!($listId = Craft::$app->security->validateData($listId))) {
                     return $this->asJson([
                         'success' => false,
                         'statusCode' => 400,
@@ -81,6 +81,5 @@ class SubscribeController extends Controller
                 return $request->getBodyParam('redirect') ? $this->redirectToPostedUrl() : $this->asJson($response);
             }
         }
-
     }
 }

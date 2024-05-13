@@ -22,7 +22,7 @@ class Settings extends Model
 
     public function checkSettings()
     {
-        if ($this->getApiKey() && $this->getClientId()){
+        if ($this->getApiKey() && $this->getClientId()) {
             return true;
         }
         return false;

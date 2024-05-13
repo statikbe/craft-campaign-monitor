@@ -2,7 +2,6 @@
 
 namespace statikbe\campaignmonitor\services;
 
-use Craft;
 use craft\base\Component;
 use statikbe\campaignmonitor\CampaignMonitor;
 
@@ -32,24 +31,24 @@ class CampaignMonitorService extends Component
                 $auth);
             $result = $client->add($subscriber);
 
-            if($result->was_successful()) {
+            if ($result->was_successful()) {
                 $body = $result->response;
                 return [
                     'success' => true,
                     'statusCode' => $result->http_status_code,
-                    'body' => $body
+                    'body' => $body,
                 ];
             } else {
                 return [
                     'success' => false,
                     'statusCode' => $result->http_status_code,
-                    'reason' => $result->response->Message
+                    'reason' => $result->response->Message,
                 ];
             }
         } catch (\Exception $e) {
             return [
                 'success' => false,
-                'reason' => $e->getMessage()
+                'reason' => $e->getMessage(),
             ];
         }
     }
