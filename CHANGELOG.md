@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 5.0.0 - 2024-05-13
+### Added
+- Craft 5 🚀
+
 ## 1.0.4 - 2024-04-02
 ### Fixed
 - Fixed a bug introduced in 1.0.3 from removing the call to validateData. Checking for each value in array or listId if not array
