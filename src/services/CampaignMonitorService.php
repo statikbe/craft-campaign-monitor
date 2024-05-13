@@ -8,7 +8,6 @@ use statikbe\campaignmonitor\CampaignMonitor;
 class CampaignMonitorService extends Component
 {
     private string|null $apiKey;
-    private string|null $clientId;
 
     public function init(): void
     {
@@ -16,10 +15,14 @@ class CampaignMonitorService extends Component
 
         $settings = CampaignMonitor::getInstance()->getSettings();
         $this->apiKey = $settings->getApiKey();
-        $this->clientId = $settings->getClientId();
     }
 
-    public function addSubscriber($listId = '', $subscriber = array())
+    /**
+     * @param string $listId
+     * @param array<mixed> $subscriber
+     * @return array<mixed>
+     */
+    public function addSubscriber(string $listId = '', array $subscriber = []): array
     {
         try {
             $auth = [
@@ -38,13 +41,13 @@ class CampaignMonitorService extends Component
                     'statusCode' => $result->http_status_code,
                     'body' => $body,
                 ];
-            } else {
-                return [
-                    'success' => false,
-                    'statusCode' => $result->http_status_code,
-                    'reason' => $result->response->Message,
-                ];
             }
+
+            return [
+                'success' => false,
+                'statusCode' => $result->http_status_code,
+                'reason' => $result->response->Message,
+            ];
         } catch (\Exception $e) {
             return [
                 'success' => false,

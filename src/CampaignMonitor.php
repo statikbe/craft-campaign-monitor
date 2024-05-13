@@ -3,23 +3,29 @@
 namespace statikbe\campaignmonitor;
 
 use Craft;
+use craft\base\Model;
 use craft\base\Plugin;
+use statikbe\campaignmonitor\models\Settings;
 
 class CampaignMonitor extends Plugin
 {
     public bool $hasCpSettings = true;
 
-    public function init()
+    public function init(): void
     {
         parent::init();
-
-        // Custom initialization code goes here...
     }
 
-    protected function createSettingsModel(): ?craft\base\Model
+    protected function createSettingsModel(): ?Settings
     {
-        return new \statikbe\campaignmonitor\models\Settings();
+        return new Settings();
     }
+
+    public function getSettings(): ?Settings
+    {
+        return new Settings();
+    }
+
 
     protected function settingsHtml(): ?string
     {

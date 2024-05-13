@@ -10,6 +10,9 @@ class Settings extends Model
     public ?string $apiKey = null;
     public ?string $clientId = null;
 
+    /**
+     * @return array<mixed>
+     */
     public function rules(): array
     {
         return [
@@ -20,7 +23,7 @@ class Settings extends Model
         ];
     }
 
-    public function checkSettings()
+    public function checkSettings(): bool
     {
         if ($this->getApiKey() && $this->getClientId()) {
             return true;

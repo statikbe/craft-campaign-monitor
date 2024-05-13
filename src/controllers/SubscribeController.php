@@ -11,7 +11,7 @@ class SubscribeController extends Controller
 {
     protected array|int|bool $allowAnonymous = ['index'];
 
-    public function actionIndex()
+    public function actionIndex(): ?\yii\web\Response
     {
         if (!CampaignMonitor::getInstance()->getSettings()->checkSettings()) {
             Craft::$app->getSession()->setError(Craft::t('site', "Please provide an API key and Client ID"));
@@ -60,26 +60,25 @@ class SubscribeController extends Controller
             'ConsentToTrack' => 'yes',
         );
 
-        if ($email) {
-            if (is_array($listId)) {
-                foreach ($listId as $id) {
-                    if (!($id = Craft::$app->security->validateData($id))) {
-                        continue;
-                    }
-                    $response = CampaignMonitorService::instance()->addSubscriber($id, $subscriber);
+        if (is_array($listId)) {
+            foreach ($listId as $id) {
+                if (!($id = Craft::$app->security->validateData($id))) {
+                    continue;
                 }
-                return $this->redirectToPostedUrl();
-            } else {
-                if (!($listId = Craft::$app->security->validateData($listId))) {
-                    return $this->asJson([
-                        'success' => false,
-                        'statusCode' => 400,
-                        'reason' => 'No valid list id',
-                    ]);
-                }
-                $response = CampaignMonitorService::instance()->addSubscriber($listId, $subscriber);
-                return $request->getBodyParam('redirect') ? $this->redirectToPostedUrl() : $this->asJson($response);
+                $response = CampaignMonitorService::instance()->addSubscriber($id, $subscriber);
             }
+            return $this->redirectToPostedUrl();
         }
+
+        if (!($listId = Craft::$app->security->validateData($listId))) {
+            return $this->asJson([
+                'success' => false,
+                'statusCode' => 400,
+                'reason' => 'No valid list id',
+            ]);
+        }
+        $response = CampaignMonitorService::instance()->addSubscriber($listId, $subscriber);
+        return $request->getBodyParam('redirect') ? $this->redirectToPostedUrl() : $this->asJson($response);
     }
+
 }
