@@ -11,21 +11,20 @@ class CampaignMonitor extends Plugin
 {
     public bool $hasCpSettings = true;
 
+    /**
+     * @var CampaignMonitor
+     */
+    public static $plugin;
+
     public function init(): void
     {
         parent::init();
     }
 
-    protected function createSettingsModel(): ?Settings
+    protected function createSettingsModel(): ?Model
     {
-        return new Settings();
+        return Craft::createObject(Settings::class);
     }
-
-    public function getSettings(): ?Settings
-    {
-        return new Settings();
-    }
-
 
     protected function settingsHtml(): ?string
     {

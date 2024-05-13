@@ -5,6 +5,7 @@ namespace statikbe\campaignmonitor\controllers;
 use Craft;
 use craft\web\Controller;
 use statikbe\campaignmonitor\CampaignMonitor;
+use statikbe\campaignmonitor\models\Settings;
 use statikbe\campaignmonitor\services\CampaignMonitorService;
 
 class SubscribeController extends Controller
@@ -13,7 +14,9 @@ class SubscribeController extends Controller
 
     public function actionIndex(): ?\yii\web\Response
     {
-        if (!CampaignMonitor::getInstance()->getSettings()->checkSettings()) {
+        /* @var Settings $settings */
+        $settings = CampaignMonitor::$plugin->getSettingsResponse();
+        if (!$settings->checkSettings()) {
             Craft::$app->getSession()->setError(Craft::t('site', "Please provide an API key and Client ID"));
             return $this->asFailure(Craft::t('site', "Please provide an API key and Client ID"));
         }
