@@ -2,7 +2,7 @@
   "name": "statikbe/craft-campaign-monitor",
   "description": "Add subscribers to a Campaign Monitor list",
   "type": "craft-plugin",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "keywords": ["craft", "cms", "craftcms", "craft-plugin", "plugin", "campaign monitor", "campaignmonitor", "email"],
   "license": "MIT",
   "authors": [
