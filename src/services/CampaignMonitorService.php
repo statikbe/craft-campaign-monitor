@@ -12,7 +12,7 @@ class CampaignMonitorService extends Component
     public function init(): void
     {
         parent::init();
-        $settings = CampaignMonitor::$plugin->getSettingsResponse();
+        $settings = CampaignMonitor::getInstance()->getSettings();
         $this->apiKey = $settings->getApiKey();
     }
 
