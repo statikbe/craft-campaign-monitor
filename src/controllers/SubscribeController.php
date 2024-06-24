@@ -15,7 +15,7 @@ class SubscribeController extends Controller
     public function actionIndex(): ?\yii\web\Response
     {
         /* @var Settings $settings */
-        $settings = CampaignMonitor::$plugin->getSettingsResponse();
+        $settings = CampaignMonitor::getInstance()->getSettings();
         if (!$settings->checkSettings()) {
             Craft::$app->getSession()->setError(Craft::t('site', "Please provide an API key and Client ID"));
             return $this->asFailure(Craft::t('site', "Please provide an API key and Client ID"));
