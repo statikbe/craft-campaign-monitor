@@ -22,3 +22,11 @@
     value:        settings.clientId,
     suggestEnvVars: true
 }) }}
+
+{{ forms.lightswitchField({
+    label:        'Validate ReCaptcha',
+    name:         'validateRecaptcha',
+    id:           'validateRecaptcha',
+    instructions: 'When enabled, the plugin will validate the ReCaptcha response before subscribing the user.',
+    on:           settings.validateRecaptcha,
+}) }}
