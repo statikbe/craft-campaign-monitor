@@ -9,6 +9,7 @@ class Settings extends Model
 {
     public ?string $apiKey = null;
     public ?string $clientId = null;
+    public bool $validateRecaptcha = false;
 
     public function rules(): array
     {

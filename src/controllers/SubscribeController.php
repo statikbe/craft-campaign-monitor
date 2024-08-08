@@ -20,6 +20,13 @@ class SubscribeController extends Controller
         $this->requirePostRequest();
         $request = Craft::$app->getRequest();
 
+        if (CampaignMonitor::getInstance()->getSettings()->validateRecaptcha) {
+            if (empty($_POST['g-recaptcha-response'])) {
+                Craft::$app->getSession()->setError(Craft::t('site', "Failed to validate reCAPTCHA"));
+                return $this->asFailure(Craft::t('site', "Failed to validate reCAPTCHA"));
+            }
+        }
+
         // Fetch list id from hidden input
         $listId = $request->getRequiredBodyParam('listId') ?? null;
 
