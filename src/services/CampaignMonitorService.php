@@ -2,12 +2,14 @@
 
 namespace statikbe\campaignmonitor\services;
 
-use Craft;
 use craft\base\Component;
 use statikbe\campaignmonitor\CampaignMonitor;
+use statikbe\campaignmonitor\events\ApiResponseEvent;
 
 class CampaignMonitorService extends Component
 {
+    public const EVENT_AFTER_SUBSCRIBE = 'afterSubscribe';
+
     private string|null $apiKey;
     private string|null $clientId;
 
@@ -20,7 +22,7 @@ class CampaignMonitorService extends Component
         $this->clientId = $settings->getClientId();
     }
 
-    public function addSubscriber($listId = '', $subscriber = array())
+    public function addSubscriber(string $listId = '', array $subscriber = array()): array
     {
         try {
             $auth = [
@@ -29,16 +31,26 @@ class CampaignMonitorService extends Component
 
             $client = new \CS_REST_Subscribers(
                 $listId,
-                $auth);
+                $auth
+            );
             $result = $client->add($subscriber);
 
             if($result->was_successful()) {
                 $body = $result->response;
-                return [
+
+                $response = [
                     'success' => true,
                     'statusCode' => $result->http_status_code,
                     'body' => $body
                 ];
+
+                $this->trigger(self::EVENT_AFTER_SUBSCRIBE, new ApiResponseEvent([
+                    'listId' => $listId,
+                    'subscriber' => $subscriber,
+                    'response' => $response,
+                ]));
+
+                return $response;
             } else {
                 return [
                     'success' => false,
